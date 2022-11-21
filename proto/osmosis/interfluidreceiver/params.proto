@@ -1,0 +1,12 @@
+syntax = "proto3";
+package osmosis.v12.interfluidreceiver;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/osmosis-labs/osmosis/v12/x/interfluidreceiver/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (gogoproto.goproto_stringer) = false;
+  
+}
