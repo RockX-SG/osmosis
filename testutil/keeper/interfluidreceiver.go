@@ -14,8 +14,8 @@ import (
 	capabilitykeeper "github.com/cosmos/cosmos-sdk/x/capability/keeper"
 	capabilitytypes "github.com/cosmos/cosmos-sdk/x/capability/types"
 	typesparams "github.com/cosmos/cosmos-sdk/x/params/types"
-	channeltypes "github.com/cosmos/ibc-go/v5/modules/core/04-channel/types"
-	ibcexported "github.com/cosmos/ibc-go/v5/modules/core/exported"
+	channeltypes "github.com/cosmos/ibc-go/v3/modules/core/04-channel/types"
+	ibcexported "github.com/cosmos/ibc-go/v3/modules/core/exported"
 	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/log"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
@@ -45,8 +45,6 @@ func (interfluidreceiverPortKeeper) BindPort(ctx sdk.Context, portID string) *ca
 	return &capabilitytypes.Capability{}
 }
 
-
-
 func InterfluidreceiverKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 	logger := log.NewNopLogger()
 
@@ -54,7 +52,7 @@ func InterfluidreceiverKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 	memStoreKey := storetypes.NewMemoryStoreKey(types.MemStoreKey)
 
 	db := tmdb.NewMemDB()
-	stateStore := store.NewCommitMultiStore(db)
+	stateStore := store.NewCommitMultiStore(db, logger)
 	stateStore.MountStoreWithDB(storeKey, storetypes.StoreTypeIAVL, db)
 	stateStore.MountStoreWithDB(memStoreKey, storetypes.StoreTypeMemory, nil)
 	require.NoError(t, stateStore.LoadLatestVersion())
@@ -70,14 +68,14 @@ func InterfluidreceiverKeeper(t testing.TB) (*keeper.Keeper, sdk.Context) {
 		"InterfluidreceiverParams",
 	)
 	k := keeper.NewKeeper(
-        appCodec,
-        storeKey,
-        memStoreKey,
-        paramsSubspace,
-        interfluidreceiverChannelKeeper{},
-        interfluidreceiverPortKeeper{},
-        capabilityKeeper.ScopeToModule("InterfluidreceiverScopedKeeper"),
-    )
+		appCodec,
+		storeKey,
+		memStoreKey,
+		paramsSubspace,
+		interfluidreceiverChannelKeeper{},
+		interfluidreceiverPortKeeper{},
+		capabilityKeeper.ScopeToModule("InterfluidreceiverScopedKeeper"),
+	)
 
 	ctx := sdk.NewContext(stateStore, tmproto.Header{}, false, logger)
 

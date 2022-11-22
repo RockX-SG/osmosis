@@ -6,13 +6,12 @@ package osmosis.v12.interfluidsender;
 option go_package = "github.com/osmosis-labs/osmosis/v12/x/interfluidsender/types";
 
 message InterfluidsenderPacketData {
-    oneof packet {
-        NoData noData = 1;
-        // this line is used by starport scaffolding # ibc/packet/proto/field
-    }
+  oneof packet {
+    NoData noData = 1;
+    // this line is used by starport scaffolding # ibc/packet/proto/field
+  }
 }
 
-message NoData {
-}
+message NoData {}
 
 // this line is used by starport scaffolding # ibc/packet/proto/message
