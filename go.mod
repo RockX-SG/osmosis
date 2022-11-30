@@ -42,9 +42,7 @@ require (
 	github.com/creachadair/taskgroup v0.3.2 // indirect
 	github.com/curioswitch/go-reassign v0.2.0 // indirect
 	github.com/felixge/httpsnoop v1.0.1 // indirect
-	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/google/btree v1.0.0 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.14.0 // indirect
 	github.com/kkHAIKE/contextcheck v1.1.3 // indirect
 	github.com/maratori/testableexamples v1.0.0 // indirect
 	github.com/regen-network/cosmos-proto v0.3.1 // indirect

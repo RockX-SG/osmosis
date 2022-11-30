@@ -1,13 +1,32 @@
 syntax = "proto3";
 package osmosis.v12.interfluidsender;
 
-// this line is used by starport scaffolding # proto/tx/import
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/osmosis-labs/osmosis/v12/x/interfluidsender/types";
 
 // Msg defines the Msg service.
 service Msg {
-  // this line is used by starport scaffolding # proto/tx/rpc
+  // Execute superfluid delegation for a lockup
+  rpc InterfluidDelegate(MsgInterfluidDelegate)
+      returns (MsgInterfluidDelegateResponse);
+
+  // Execute superfluid undelegation for a lockup
+  rpc InterfluidUndelegate(MsgInterfluidUndelegate)
+      returns (MsgInterfluidUndelegateResponse);
 }
 
-// this line is used by starport scaffolding # proto/tx/message
+message MsgInterfluidDelegate {
+  string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
+  uint64 lock_id = 2;
+  string val_addr = 3;
+}
+
+message MsgInterfluidDelegateResponse {}
+
+message MsgInterfluidUndelegate {
+  string sender = 1 [ (gogoproto.moretags) = "yaml:\"sender\"" ];
+  uint64 lock_id = 2;
+}
+
+message MsgInterfluidUndelegateResponse {}
