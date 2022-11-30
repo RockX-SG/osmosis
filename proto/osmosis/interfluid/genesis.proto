@@ -1,0 +1,15 @@
+syntax = "proto3";
+package osmosis.v12.interfluid;
+
+import "gogoproto/gogo.proto";
+import "osmosis/interfluid/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/osmosis-labs/osmosis/v12/x/interfluid/types";
+
+// GenesisState defines the interfluid module's genesis state.
+message GenesisState {
+  Params params = 1 [ (gogoproto.nullable) = false ];
+  string port_id = 2;
+  // this line is used by starport scaffolding # genesis/proto/state
+}

@@ -1,0 +1,84 @@
+syntax = "proto3";
+package osmosis.interfluid;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/timestamp.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/osmosis-labs/osmosis/v12/x/interfluid/types";
+
+// InterfluidAssetType indicates whether the interfluid asset is
+// a native token itself or the lp share of a pool.
+enum InterfluidAssetType {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  InterfluidAssetTypeNative = 0;
+  InterfluidAssetTypeLPShare = 1;
+  // InterfluidAssetTypeLendingShare = 2; // for now not exist
+}
+
+// InterfluidAsset stores the pair of interfluid asset type and denom pair
+message InterfluidAsset {
+  option (gogoproto.equal) = true;
+  option (gogoproto.goproto_getters) = false;
+
+  string denom = 1;
+  // AssetType indicates whether the interfluid asset is a native token or an lp
+  // share
+  InterfluidAssetType asset_type = 2;
+}
+
+// InterfluidIntermediaryAccount takes the role of intermediary between LP token
+// and OSMO tokens for interfluid staking. The intermediary account is the
+// actual account responsible for delegation, not the validator account itself.
+message InterfluidIntermediaryAccount {
+  // Denom indicates the denom of the interfluid asset.
+  string denom = 1;
+  string val_addr = 2;
+  // perpetual gauge for rewards distribution
+  uint64 gauge_id = 3;
+}
+
+// The Osmo-Equivalent-Multiplier Record for epoch N refers to the osmo worth we
+// treat an LP share as having, for all of epoch N. Eventually this is intended
+// to be set as the Time-weighted-average-osmo-backing for the entire duration
+// of epoch N-1. (Thereby locking whats in use for epoch N as based on the prior
+// epochs rewards) However for now, this is not the TWAP but instead the spot
+// price at the boundary. For different types of assets in the future, it could
+// change.
+message OsmoEquivalentMultiplierRecord {
+  int64 epoch_number = 1;
+  // interfluid asset denom, can be LP token or native token
+  string denom = 2;
+  string multiplier = 3 [
+    (gogoproto.moretags) = "yaml:\"multiplier\"",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable) = false
+  ];
+}
+
+// InterfluidDelegationRecord is a struct used to indicate interfluid
+// delegations of an account in the state machine in a user friendly form.
+message InterfluidDelegationRecord {
+  string delegator_address = 1;
+  string validator_address = 2;
+  cosmos.base.v1beta1.Coin delegation_amount = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  ];
+  //  cosmos.base.v1beta1.Coin equivalent_staked_amount = 4 // Not needed for
+  //  interfluid
+  //      [ (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coin"
+  //      ];
+}
+
+// LockIdIntermediaryAccountConnection is a struct used to indicate the
+// relationship between the underlying lock id and interfluid delegation done
+// via lp shares.
+message LockIdIntermediaryAccountConnection {
+  uint64 lock_id = 1;
+  string intermediary_account = 2;
+}
+
+message UnpoolWhitelistedPools { repeated uint64 ids = 1; }

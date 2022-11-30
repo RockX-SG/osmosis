@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/stretchr/testify/require"
-	testkeeper 	"github.com/osmosis-labs/osmosis/v12/testutil/keeper"
+	testkeeper "github.com/osmosis-labs/osmosis/v12/testutil/keeper"
 	"github.com/osmosis-labs/osmosis/v12/x/interfluidsender/types"
+	"github.com/stretchr/testify/require"
 )
 
 func TestParamsQuery(t *testing.T) {

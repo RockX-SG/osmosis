@@ -5,8 +5,8 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/spf13/cobra"
 	"github.com/osmosis-labs/osmosis/v12/x/interfluidsender/types"
+	"github.com/spf13/cobra"
 )
 
 func CmdQueryParams() *cobra.Command {

@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-    "github.com/osmosis-labs/osmosis/v12/x/interfluidreceiver/types"
-    "github.com/osmosis-labs/osmosis/v12/x/interfluidreceiver/keeper"
-    keepertest "github.com/osmosis-labs/osmosis/v12/testutil/keeper"
+	keepertest "github.com/osmosis-labs/osmosis/v12/testutil/keeper"
+	"github.com/osmosis-labs/osmosis/v12/x/interfluidreceiver/keeper"
+	"github.com/osmosis-labs/osmosis/v12/x/interfluidreceiver/types"
 )
 
 func setupMsgServer(t testing.TB) (types.MsgServer, context.Context) {

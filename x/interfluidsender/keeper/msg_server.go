@@ -1,6 +1,8 @@
 package keeper
 
 import (
+	"context"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/osmosis-labs/osmosis/v12/x/interfluidsender/types"
 )
 
@@ -15,3 +17,18 @@ func NewMsgServerImpl(keeper Keeper) types.MsgServer {
 }
 
 var _ types.MsgServer = msgServer{}
+
+func (server msgServer) InterfluidDelegate(goCtx context.Context, delegate *types.MsgInterfluidDelegate) (*types.MsgInterfluidDelegateResponse, error) {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	err := server.keeper.SuperfluidDelegate(ctx, msg.Sender, msg.LockId, msg.ValAddr)
+	if err == nil {
+		events.EmitSuperfluidDelegateEvent(ctx, msg.LockId, msg.ValAddr)
+	}
+	return &types.MsgSuperfluidDelegateResponse{}, err
+}
+
+func (server msgServer) InterfluidUndelegate(ctx context.Context, undelegate *types.MsgInterfluidUndelegate) (*types.MsgInterfluidUndelegateResponse, error) {
+	//TODO implement me
+	panic("implement me")
+}
